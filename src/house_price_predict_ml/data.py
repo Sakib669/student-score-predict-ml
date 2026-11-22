@@ -26,21 +26,24 @@ DEFAULT_DATASET_PATH = (
 )
 
 
-def load_dataset(path: str | Path | None = None) -> pd.DataFrame:
-    """Load the project CSV and reject missing schema or target values."""
-    dataset_path = Path(path) if path is not None else DEFAULT_DATASET_PATH
-    data = pd.read_csv(dataset_path)
-
+def validate_dataset(data: pd.DataFrame) -> pd.DataFrame:
+    """Validate a loaded dataset and return only the modeling columns."""
     missing_columns = [column for column in DATASET_COLUMNS if column not in data]
     if missing_columns:
         raise ValueError(
             f"Dataset is missing required columns: {', '.join(missing_columns)}"
         )
     if data.empty:
-        raise ValueError(f"Dataset contains no rows: {dataset_path}")
+        raise ValueError("Dataset contains no rows")
     if data[TARGET_COLUMN].isna().any():
         raise ValueError(f"Target column {TARGET_COLUMN!r} contains missing values")
     if not pd.api.types.is_numeric_dtype(data[TARGET_COLUMN]):
         raise ValueError(f"Target column {TARGET_COLUMN!r} must be numeric")
 
     return data.loc[:, DATASET_COLUMNS].copy()
+
+
+def load_dataset(path: str | Path | None = None) -> pd.DataFrame:
+    """Load the project CSV and reject missing schema or target values."""
+    dataset_path = Path(path) if path is not None else DEFAULT_DATASET_PATH
+    return validate_dataset(pd.read_csv(dataset_path))
