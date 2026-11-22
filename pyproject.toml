@@ -1,7 +1,7 @@
 [project]
-name = "student-score-predict-ml"
+name = "house-price-predict-ml"
 version = "0.1.0"
-description = "Add your description here"
+description = "House price prediction and dataset exploration"
 readme = "README.md"
 authors = [
     { name = "Sakib669", email = "stewieboyyy@gmail.com" }
@@ -17,9 +17,6 @@ dependencies = [
     "scikit-learn>=1.9.1",
     "uvicorn[standard]>=0.54.0",
 ]
-
-[project.scripts]
-student-score-predict-ml = "student_score_predict_ml:main"
 
 [build-system]
 requires = ["uv_build>=0.13.0,<0.14.0"]

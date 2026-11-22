@@ -2148,7 +2148,7 @@ wheels = [
 ]
 
 [[package]]
-name = "student-score-predict-ml"
+name = "house-price-predict-ml"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
